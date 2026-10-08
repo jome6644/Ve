@@ -376,7 +376,9 @@
         <div class="required-note">All questions are required.</div>
       </div>
 
-      <form id="talentForm">
+      <form id="talentForm" name="talent-application" method="POST" data-netlify="true" data-netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="talent-application">
+        <p style="display:none"><label>Do not fill this out: <input name="bot-field"></label></p>
         <div class="grid">
           <div>
             <label>Name</label>
@@ -531,11 +533,11 @@
           <div class="question full">
             <label>Preferred project types</label>
             <div class="options">
-              <label><input type="checkbox" name="project_types" value="Advertisements">Advertisements</label>
-              <label><input type="checkbox" name="project_types" value="Acting">Acting</label>
-              <label><input type="checkbox" name="project_types" value="Social content">Social Content</label>
-              <label><input type="checkbox" name="project_types" value="Product shoots">Product Shoots</label>
-              <label><input type="checkbox" name="project_types" value="Short videos">Short Videos</label>
+              <label><input type="checkbox" name="project_types[]" value="Advertisements">Advertisements</label>
+              <label><input type="checkbox" name="project_types[]" value="Acting">Acting</label>
+              <label><input type="checkbox" name="project_types[]" value="Social content">Social Content</label>
+              <label><input type="checkbox" name="project_types[]" value="Product shoots">Product Shoots</label>
+              <label><input type="checkbox" name="project_types[]" value="Short videos">Short Videos</label>
             </div>
           </div>
 
@@ -587,43 +589,39 @@
     talentForm.addEventListener("submit", async (event) => {
       event.preventDefault();
 
-      const projectTypes = Array.from(
-        talentForm.querySelectorAll('input[name="project_types"]:checked')
-      ).map((item) => item.value);
+      const selectedProjectTypes = talentForm.querySelectorAll(
+        'input[name="project_types[]"]:checked'
+      );
 
-      if (projectTypes.length === 0) {
+      if (selectedProjectTypes.length === 0) {
         statusBox.className = "status error";
         statusBox.textContent = "Please select at least one preferred project type.";
         return;
       }
 
       const formData = new FormData(talentForm);
-      const payload = Object.fromEntries(formData.entries());
-      payload.project_types = projectTypes;
 
       statusBox.className = "status";
       statusBox.textContent = "";
 
       try {
-        const response = await fetch("/.netlify/functions/submit", {
+        const response = await fetch("/", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/x-www-form-urlencoded"
           },
-          body: JSON.stringify(payload)
+          body: new URLSearchParams(formData).toString()
         });
 
-        const result = await response.json();
-
         if (!response.ok) {
-          throw new Error(result.error || "Submission failed.");
+          throw new Error("Submission failed.");
         }
 
         homeSection.style.display = "none";
         applicationSection.style.display = "none";
         thankView.classList.add("show");
         window.scrollTo({ top: 0, behavior: "smooth" });
-      } catch (error) {
+      } catch {
         statusBox.className = "status error";
         statusBox.textContent = "Something went wrong. Please try again.";
       }
