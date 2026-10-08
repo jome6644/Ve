@@ -605,7 +605,7 @@
       statusBox.textContent = "";
 
       try {
-        const response = await fetch("/api/submit", {
+        const response = await fetch("/.netlify/functions/submit", {
           method: "POST",
           headers: {
             "Content-Type": "application/json"
