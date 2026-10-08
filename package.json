@@ -1,8 +1,8 @@
 {
-  "name": "vezxoxo-netlify",
+  "name": "vezxoxo-netlify-dashboard",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "nodemailer": "^6.9.16"
+    "@netlify/blobs": "^9.1.0"
   }
 }
