@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>vezxoxo | Coming Soon</title>
+  <style>
+    :root {
+      --gold: #f1c66b;
+      --gold2: #ffd98d;
+      --text: #fff7e7;
+      --line: rgba(255,255,255,.14);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #090807;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background:
+        linear-gradient(rgba(0,0,0,.12), rgba(0,0,0,.32)),
+        url("/hero.png") center center / cover no-repeat;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, transparent 0 33%, rgba(0,0,0,.18) 58%, rgba(0,0,0,.5) 100%);
+      pointer-events: none;
+    }
+
+    .brand {
+      position: absolute;
+      z-index: 2;
+      top: 34px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: clamp(28px, 3.2vw, 54px);
+      font-family: Georgia, "Times New Roman", serif;
+      letter-spacing: 6px;
+      color: #f5d993;
+      text-transform: lowercase;
+      text-shadow: 0 2px 20px rgba(0,0,0,.45);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: min(1000px, 90%);
+      margin-top: 55px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(64px, 10vw, 150px);
+      line-height: .88;
+      font-weight: 700;
+      letter-spacing: -4px;
+      color: #ffe8ac;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(255,211,113,.22), 0 4px 18px rgba(0,0,0,.55);
+    }
+
+    .hero h1 span {
+      display: block;
+    }
+
+    .cta,
+    .submit {
+      border: 1px solid rgba(255,233,184,.7);
+      background: linear-gradient(180deg, #ffdfa1, #e7ae4d);
+      color: #20170b;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 16px 30px;
+      border-radius: 999px;
+      cursor: pointer;
+      box-shadow: 0 0 28px rgba(255,197,80,.28), 0 12px 35px rgba(0,0,0,.35);
+      transition: .2s ease;
+    }
+
+    .cta {
+      margin-top: 42px;
+    }
+
+    .cta:hover,
+    .submit:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.05);
+    }
+
+    .form-wrap {
+      display: none;
+      position: relative;
+      min-height: 100vh;
+      padding: 70px 18px;
+      background:
+        linear-gradient(rgba(7,6,5,.90), rgba(7,6,5,.96)),
+        url("/hero.png") center center / cover fixed no-repeat;
+    }
+
+    .form-wrap.open {
+      display: block;
+    }
+
+    .panel {
+      width: min(960px, 100%);
+      margin: auto;
+      background: rgba(8,8,10,.78);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 30px 80px rgba(0,0,0,.45);
+      padding: 32px;
+    }
+
+    .panel-head {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+
+    .mini-brand {
+      color: var(--gold);
+      letter-spacing: 4px;
+      text-transform: lowercase;
+      font-family: Georgia, serif;
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .panel-head h2 {
+      margin: 0;
+      font-family: Georgia, serif;
+      color: var(--text);
+      font-size: clamp(32px, 4vw, 52px);
+    }
+
+    .required-note {
+      text-align: center;
+      color: #d8c9ad;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #fff6df;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.075);
+      color: #fff;
+      outline: none;
+      font-size: 15px;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #bdb6a8;
+    }
+
+    select option {
+      color: #111;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: rgba(241,198,107,.7);
+      box-shadow: 0 0 0 3px rgba(241,198,107,.12);
+    }
+
+    .question {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.09);
+      background: rgba(255,255,255,.04);
+    }
+
+    .options {
+      display: flex;
+      gap: 9px;
+      flex-wrap: wrap;
+      margin: 8px 0 10px;
+    }
+
+    .options label {
+      margin: 0;
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,.12);
+      padding: 9px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      cursor: pointer;
+    }
+
+    .options input {
+      width: auto;
+      margin-right: 6px;
+      accent-color: var(--gold);
+    }
+
+    .section-title {
+      margin: 30px 0 14px;
+      color: var(--gold2);
+      font-size: 22px;
+      font-family: Georgia, serif;
+    }
+
+    .submit {
+      width: 100%;
+      margin-top: 24px;
+      border-radius: 14px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-bottom: 18px;
+      color: #f2d391;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .status {
+      display: none;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .status.ok {
+      display: block;
+      color: #ddf5df;
+      background: rgba(79,174,95,.12);
+      border: 1px solid rgba(79,174,95,.28);
+    }
+
+    .status.error {
+      display: block;
+      color: #ffdede;
+      background: rgba(181,67,67,.12);
+      border: 1px solid rgba(181,67,67,.28);
+    }
+
+    .thank-view {
+      display: none;
+      min-height: 100vh;
+      place-items: center;
+      padding: 24px;
+      background:
+        linear-gradient(rgba(0,0,0,.55), rgba(0,0,0,.75)),
+        url("/hero.png") center center / cover no-repeat;
+    }
+
+    .thank-view.show {
+      display: grid;
+    }
+
+    .thank-card {
+      text-align: center;
+      width: min(620px, 100%);
+      padding: 48px 28px;
+      border-radius: 28px;
+      background: rgba(8,8,10,.78);
+      border: 1px solid rgba(255,255,255,.12);
+      backdrop-filter: blur(16px);
+    }
+
+    .thank-card h2 {
+      font-family: Georgia, serif;
+      font-size: 56px;
+      margin: 10px 0;
+      color: #ffe8ac;
+    }
+
+    .thank-card p {
+      font-size: 18px;
+      color: #e7dfd0;
+      margin: 8px 0;
+    }
+
+    @media (max-width: 700px) {
+      .brand {
+        top: 26px;
+      }
+
+      .hero-content {
+        margin-top: 20px;
+      }
+
+      .hero h1 {
+        letter-spacing: -2px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .full {
+        grid-column: auto;
+      }
+
+      .panel {
+        padding: 20px;
+      }
+
+      .cta {
+        font-size: 16px;
+        padding: 14px 23px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <section class="hero" id="home">
+    <div class="brand">vezxoxo</div>
+    <div class="hero-content">
+      <h1><span>Coming</span><span>Soon</span></h1>
+      <button class="cta" id="openForm" type="button">Open Application Form →</button>
+    </div>
+  </section>
+
+  <section class="form-wrap" id="application">
+    <div class="panel">
+      <a class="back" href="#home" id="backHome">← Back</a>
+
+      <div class="panel-head">
+        <div class="mini-brand">vezxoxo</div>
+        <h2>Talent Application Form</h2>
+        <div class="required-note">All questions are required.</div>
+      </div>
+
+      <form id="talentForm">
+        <div class="grid">
+          <div>
+            <label>Name</label>
+            <input name="name" type="text" placeholder="Enter your name" required>
+          </div>
+
+          <div>
+            <label>Age</label>
+            <input name="age" type="number" min="18" placeholder="18+" required>
+          </div>
+
+          <div>
+            <label>Profession</label>
+            <input name="profession" type="text" placeholder="Your profession" required>
+          </div>
+
+          <div>
+            <label>Marital Status</label>
+            <select name="marital_status" required>
+              <option value="">Select</option>
+              <option>Single</option>
+              <option>Married</option>
+              <option>Prefer not to say</option>
+            </select>
+          </div>
+
+          <div>
+            <label>City / Country</label>
+            <input name="location" type="text" placeholder="Example: Muscat, Oman" required>
+          </div>
+
+          <div>
+            <label>Email Address</label>
+            <input name="email" type="email" placeholder="you@example.com" required>
+          </div>
+        </div>
+
+        <div class="section-title">Experience & Skills</div>
+
+        <div class="grid">
+          <div class="question">
+            <label>Are you skilled in acting?</label>
+            <div class="options">
+              <label><input type="radio" name="acting" value="Yes" required>Yes</label>
+              <label><input type="radio" name="acting" value="Somewhat">Somewhat</label>
+              <label><input type="radio" name="acting" value="No">No</label>
+            </div>
+            <textarea name="acting_notes" placeholder="Add details" required></textarea>
+          </div>
+
+          <div class="question">
+            <label>Do you have experience in advertisements or commercial shoots?</label>
+            <div class="options">
+              <label><input type="radio" name="ads" value="Yes" required>Yes</label>
+              <label><input type="radio" name="ads" value="Basic">Basic</label>
+              <label><input type="radio" name="ads" value="No">No</label>
+            </div>
+            <textarea name="ads_notes" placeholder="Add details" required></textarea>
+          </div>
+
+          <div class="question">
+            <label>Are you comfortable in front of the camera?</label>
+            <div class="options">
+              <label><input type="radio" name="camera" value="Yes" required>Yes</label>
+              <label><input type="radio" name="camera" value="Somewhat">Somewhat</label>
+              <label><input type="radio" name="camera" value="No">No</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <label>Can you memorize and perform a short script?</label>
+            <div class="options">
+              <label><input type="radio" name="script" value="Yes" required>Yes</label>
+              <label><input type="radio" name="script" value="With practice">With practice</label>
+              <label><input type="radio" name="script" value="No">No</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-title">Preferences & Boundaries</div>
+
+        <div class="grid">
+          <div class="full">
+            <label>What products or categories do you prefer?</label>
+            <textarea name="preferred_products" placeholder="Fashion, perfumes, restaurants, technology, cars..." required></textarea>
+          </div>
+
+          <div class="full">
+            <label>What products or categories do you not prefer?</label>
+            <textarea name="non_preferred_products" placeholder="List anything you would rather avoid" required></textarea>
+          </div>
+
+          <div class="question full">
+            <label>Do you have any issue with scenes involving partial body exposure in an advertising or artistic context?</label>
+            <div class="options">
+              <label><input type="radio" name="partial_exposure" value="No issue" required>No issue</label>
+              <label><input type="radio" name="partial_exposure" value="Depends on the scene">Depends on the scene</label>
+              <label><input type="radio" name="partial_exposure" value="I do not agree">I do not agree</label>
+              <label><input type="radio" name="partial_exposure" value="Prefer prior discussion">Prefer prior discussion</label>
+            </div>
+            <textarea name="partial_exposure_notes" placeholder="Explain your boundaries or conditions" required></textarea>
+          </div>
+
+          <div class="question">
+            <label>Do you have any issue with wearing provocative or revealing outfits for a shoot?</label>
+            <div class="options">
+              <label><input type="radio" name="provocative_outfits" value="No issue" required>No issue</label>
+              <label><input type="radio" name="provocative_outfits" value="Depends on the outfit">Depends on the outfit</label>
+              <label><input type="radio" name="provocative_outfits" value="I do not agree">I do not agree</label>
+              <label><input type="radio" name="provocative_outfits" value="Prefer prior discussion">Prefer prior discussion</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <label>If a scene requires nudity or stronger body exposure, would you prefer filming without showing your face?</label>
+            <div class="options">
+              <label><input type="radio" name="no_face_nudity" value="Yes" required>Yes</label>
+              <label><input type="radio" name="no_face_nudity" value="No">No</label>
+              <label><input type="radio" name="no_face_nudity" value="Depends on the scene">Depends on the scene</label>
+              <label><input type="radio" name="no_face_nudity" value="I would not accept such scenes">I would not accept such scenes</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <label>Do you have wardrobe restrictions?</label>
+            <div class="options">
+              <label><input type="radio" name="wardrobe" value="No" required>No</label>
+              <label><input type="radio" name="wardrobe" value="Yes">Yes</label>
+              <label><input type="radio" name="wardrobe" value="Depends on the project">Depends on the project</label>
+            </div>
+            <textarea name="wardrobe_notes" placeholder="Explain your wardrobe restrictions" required></textarea>
+          </div>
+
+          <div class="question">
+            <label>Are you comfortable with non-explicit romantic scenes?</label>
+            <div class="options">
+              <label><input type="radio" name="romantic" value="Yes" required>Yes</label>
+              <label><input type="radio" name="romantic" value="Depends on the scene">Depends on the scene</label>
+              <label><input type="radio" name="romantic" value="No">No</label>
+            </div>
+          </div>
+
+          <div class="question">
+            <label>Are you willing to travel for shoots?</label>
+            <div class="options">
+              <label><input type="radio" name="travel" value="Yes" required>Yes</label>
+              <label><input type="radio" name="travel" value="Inside the country only">Inside the country only</label>
+              <label><input type="radio" name="travel" value="No">No</label>
+            </div>
+          </div>
+
+          <div class="question full">
+            <label>Preferred project types</label>
+            <div class="options">
+              <label><input type="checkbox" name="project_types" value="Advertisements">Advertisements</label>
+              <label><input type="checkbox" name="project_types" value="Acting">Acting</label>
+              <label><input type="checkbox" name="project_types" value="Social content">Social Content</label>
+              <label><input type="checkbox" name="project_types" value="Product shoots">Product Shoots</label>
+              <label><input type="checkbox" name="project_types" value="Short videos">Short Videos</label>
+            </div>
+          </div>
+
+          <div class="full">
+            <label>Preferred availability</label>
+            <textarea name="availability" placeholder="Evenings, weekends, by arrangement..." required></textarea>
+          </div>
+
+          <div class="full">
+            <label>Additional notes or conditions</label>
+            <textarea name="additional_notes" placeholder="Anything else you would like to add" required></textarea>
+          </div>
+        </div>
+
+        <button class="submit" type="submit">Submit Application</button>
+        <div id="status" class="status"></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="thank-view" id="thankView">
+    <div class="thank-card">
+      <div class="mini-brand">vezxoxo</div>
+      <h2>Thank You</h2>
+      <p>Your application has been received successfully.</p>
+      <p>We will contact you soon.</p>
+    </div>
+  </section>
+
+  <script>
+    const openFormButton = document.getElementById("openForm");
+    const applicationSection = document.getElementById("application");
+    const homeSection = document.getElementById("home");
+    const backHomeLink = document.getElementById("backHome");
+    const talentForm = document.getElementById("talentForm");
+    const statusBox = document.getElementById("status");
+    const thankView = document.getElementById("thankView");
+
+    openFormButton.addEventListener("click", () => {
+      applicationSection.classList.add("open");
+      applicationSection.scrollIntoView({ behavior: "smooth" });
+    });
+
+    backHomeLink.addEventListener("click", (event) => {
+      event.preventDefault();
+      homeSection.scrollIntoView({ behavior: "smooth" });
+    });
+
+    talentForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const projectTypes = Array.from(
+        talentForm.querySelectorAll('input[name="project_types"]:checked')
+      ).map((item) => item.value);
+
+      if (projectTypes.length === 0) {
+        statusBox.className = "status error";
+        statusBox.textContent = "Please select at least one preferred project type.";
+        return;
+      }
+
+      const formData = new FormData(talentForm);
+      const payload = Object.fromEntries(formData.entries());
+      payload.project_types = projectTypes;
+
+      statusBox.className = "status";
+      statusBox.textContent = "";
+
+      try {
+        const response = await fetch("/api/submit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || "Submission failed.");
+        }
+
+        homeSection.style.display = "none";
+        applicationSection.style.display = "none";
+        thankView.classList.add("show");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (error) {
+        statusBox.className = "status error";
+        statusBox.textContent = "Something went wrong. Please try again.";
+      }
+    });
+  </script>
+</body>
+</html>
